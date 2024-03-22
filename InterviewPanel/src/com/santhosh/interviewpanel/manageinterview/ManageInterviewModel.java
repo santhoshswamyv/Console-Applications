@@ -1,6 +1,7 @@
 package com.santhosh.interviewpanel.manageinterview;
 
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -50,7 +51,7 @@ public class ManageInterviewModel {
 	void startInterview() {
 		checkForCandidates();
 		if (!candidates.isEmpty()) {
-			ManageInterviewView.isStarted = !ManageInterviewView.isStarted;
+			ManageInterviewView.isStarted = true;
 			hrList = DetailsDatabase.getInstance().getHrs();
 			if (hrList.isEmpty()) {
 				manageInterviewView.showAlert("\nHR's Currently Unavailable..!");
@@ -79,11 +80,14 @@ public class ManageInterviewModel {
 
 	void sortCandidates() {
 		checkForCandidates();
-		for (Candidate candidate : candidates) {
-			if (candidate.getStatus().equals("Waiting")) {
-				Candidate cnd = candidate;
-				candidates.remove(cnd);
-				candidates.addFirst(candidate);
+		if (candidates.getFirst().getStatus().equals("Completed")) {
+			Iterator<Candidate> iterator = candidates.iterator();
+			while (iterator.hasNext()) {
+				Candidate candidate = iterator.next();
+				if (candidate.getStatus().equals("Waiting")) {
+					iterator.remove();
+					candidates.addFirst(candidate);
+				}
 			}
 		}
 	}
@@ -91,7 +95,7 @@ public class ManageInterviewModel {
 	void endInterview(String result) {
 		checkForCandidates();
 		if (!candidates.isEmpty()) {
-			ManageInterviewView.isStarted = !ManageInterviewView.isStarted;
+			ManageInterviewView.isStarted = false;
 			hrList = DetailsDatabase.getInstance().getHrs();
 			if (hrList.isEmpty()) {
 				manageInterviewView.showAlert("/n Interview has not begun..!");
@@ -102,7 +106,7 @@ public class ManageInterviewModel {
 						Candidate cnd = candidates.getFirst();
 						cnd.setStatus("Completed");
 						cnd.setResult(result);
-						manageInterviewView.showAlert("Interview over  for " + cnd.getId());
+						manageInterviewView.showAlert("Interview over for " + cnd.getId());
 						candidates.remove(cnd);
 						candidates.addLast(cnd);
 					}
@@ -117,14 +121,20 @@ public class ManageInterviewModel {
 		checkForCandidates();
 		if (!candidates.isEmpty()) {
 			Candidate cnd = candidates.getFirst();
+			candidates.remove(cnd);
 			candidates.addLast(cnd);
 			cnd = null;
 			for (Candidate candidate : candidates) {
 				if (candidate.getId().equals(cId)) {
 					cnd = candidate;
+					if (cnd.getStatus().equals("Completed")) {
+						manageInterviewView.showAlert("\nCandidate Completed his/her Interview..!");
+						return;
+					}
 					break;
 				}
 			}
+			candidates.remove(cnd);
 			if (cnd != null) {
 				candidates.addFirst(cnd);
 				manageInterviewView.showAlert("\nNext Candidate is " + cId + "..!");
@@ -137,7 +147,7 @@ public class ManageInterviewModel {
 	}
 
 	void viewCandidates() {
-		ArrayDeque<Candidate> candidates = DetailsDatabase.getInstance().getCandidates();
+		candidates = DetailsDatabase.getInstance().getCandidates();
 		if (candidates.isEmpty()) {
 			manageInterviewView.showAlert("\nCandidates Not Registered..!");
 		} else {

@@ -73,8 +73,9 @@ public class ManageInterviewView {
 			}
 			break;
 		case 3:
-			if (isStarted) {
+			if (!isStarted) {
 				System.out.print("Enter the Candidate ID : ");
+				sc.nextLine();
 				String cId = sc.nextLine().trim();
 				manageInterviewModel.emergencyCandidate(cId);
 			} else {

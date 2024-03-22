@@ -8,8 +8,8 @@ import com.santhosh.interviewpanel.model.HR;
 
 public class LoginModel {
 	private LoginView loginView;
-	private static String tempEmail = "z";
-	private static String tempPass = "z";
+	private static String tempEmail = "admin@gmail.com";
+	private static String tempPass = "admin@123";
 
 	LoginModel(LoginView loginView) {
 		this.loginView = loginView;
