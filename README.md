@@ -30,7 +30,7 @@ Welcome to the Interview Panel Application! This application is designed to stre
 
 ## Features
 
-- **User Authentication:** Secure login system for HR personnel with temporary credentials. Users can reset their passwords.
+- **User Authentication:** Secure login system for first time setup with temporary credentials.
 - **Candidate Management:** Add and view candidate details, including their status in the interview process.
 - **Interview Scheduling:** Schedule and manage interviews with candidates.
 - **HR Management:** View HR personnel, including their availability.
