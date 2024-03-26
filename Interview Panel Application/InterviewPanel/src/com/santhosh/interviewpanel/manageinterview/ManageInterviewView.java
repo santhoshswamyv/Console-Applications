@@ -3,6 +3,7 @@ package com.santhosh.interviewpanel.manageinterview;
 import java.util.ArrayDeque;
 import java.util.Scanner;
 
+import com.santhosh.interviewpanel.Validator;
 import com.santhosh.interviewpanel.login.LoginView;
 import com.santhosh.interviewpanel.model.Candidate;
 
@@ -11,7 +12,6 @@ public class ManageInterviewView {
 	static Scanner sc = new Scanner(System.in);
 	private ManageInterviewModel manageInterviewModel;
 	private LoginView loginView;
-	static int id = 100;
 	static boolean isStarted;
 
 	@SuppressWarnings("unused")
@@ -22,11 +22,13 @@ public class ManageInterviewView {
 	public ManageInterviewView(LoginView loginView) {
 		manageInterviewModel = new ManageInterviewModel(this);
 		this.loginView = loginView;
+		manageInterviewModel.retrieveData();
 	}
 
+	// Conformation method to Add Another Candidate of after other
 	public void confirmation() throws Exception {
 		System.out.println("Do you want to add another Candidate ? (Yes / No)");
-		String confirmation = sc.nextLine().trim().trim();
+		String confirmation = sc.nextLine().trim();
 		if (confirmation.toLowerCase().equals("yes")) {
 			addCandidate();
 		} else if (confirmation.toLowerCase().equals("no")) {
@@ -38,27 +40,50 @@ public class ManageInterviewView {
 		}
 	}
 
+	// Method to get details of Candidate
 	public void addCandidate() throws Exception {
+		int id = manageInterviewModel.confirmId();
 		System.out.print("\nCandidate's ID : ");
 		Thread.sleep(1000);
 		String cId = "CAND" + id;
 		loginView.showAlert(cId);
-		System.out.print("Enter Candidate's Name : ");
-		String name = sc.nextLine().trim();
-		System.out.print("");
-		System.out.print("Enter Candidate's College Name : ");
-		String collegeName = sc.nextLine().trim();
-		System.out.print("Enter Candidate's Email ID : ");
-		String emailId = sc.nextLine().trim();
-		System.out.print("Enter Candidate's Phone No : ");
-		String phoneNo = sc.nextLine().trim();
-		System.out.print("Enter Candidate's Location : ");
-		String location = sc.nextLine().trim();
+		String name;
+		String collegeName;
+		String emailId;
+		String phoneNo;
+		String location;
+
+		do {
+			System.out.print("Enter Candidate's Name : ");
+			name = sc.nextLine().trim();
+		} while (!Validator.validateName(name));
+
+		do {
+			System.out.print("Enter Candidate's College Name : ");
+			collegeName = sc.nextLine().trim();
+		} while (!Validator.validateName(collegeName));
+
+		do {
+			System.out.print("Enter Candidate's Email Id : ");
+			emailId = sc.nextLine().trim();
+		} while (!Validator.validateEmail(emailId));
+
+		do {
+			System.out.print("Enter Candidate's Phone No : ");
+			phoneNo = sc.nextLine().trim();
+		} while (!Validator.validatePhoneNo(phoneNo));
+
+		do {
+			System.out.print("Enter Candidate's Location : ");
+			location = sc.nextLine().trim();
+		} while (!Validator.validateName(location));
+
 		String status = "Waiting";
 		String result = "Awaiting";
-		manageInterviewModel.validateCredentials(cId, name, collegeName, emailId, phoneNo, location, status, result);
+		manageInterviewModel.createCandidate(cId, name, collegeName, emailId, phoneNo, location, status, result);
 	}
 
+	// ManageInterview Interface to Handle Interview Process
 	public void manageInterview() throws Exception {
 		System.out.println("\n1) Start Interview \n2) End Interview \n3) Emergency Candidate \n4) Main Menu");
 		switch (sc.nextInt()) {
@@ -92,6 +117,7 @@ public class ManageInterviewView {
 		}
 	}
 
+	// Method to Determine Result of the Candidate
 	String reConfirmation() {
 		boolean b = true;
 		String result = "Not Declared";
@@ -112,10 +138,12 @@ public class ManageInterviewView {
 		return result;
 	}
 
+	// Method to Invoke the viewCandidates()
 	public void listCandidates() {
 		manageInterviewModel.viewCandidates();
 	}
 
+	// Method to Show Candidate's
 	public void listCandidates(ArrayDeque<Candidate> candidates) {
 		System.out.printf("%-10s %-15s %-20s %-30s %-15s %-20s %-15s %-10s %n", "ID", "Name", "CollegeName", "EmailID",
 				"PhoneNo", "Location", "Status", "Result");
@@ -132,12 +160,13 @@ public class ManageInterviewView {
 		}
 	}
 
-	public void showAlert(String alert) {
-		System.err.println(alert + "\n");
-	}
-
+	// Method to Invoke checkForCandidates()
 	public boolean checkCandidates() {
 		return manageInterviewModel.checkForCandidates();
+	}
+
+	public void showAlert(String alert) {
+		System.err.println(alert + "\n");
 	}
 
 }

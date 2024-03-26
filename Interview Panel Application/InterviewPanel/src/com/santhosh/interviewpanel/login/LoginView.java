@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.santhosh.interviewpanel.InterviewPanel;
+import com.santhosh.interviewpanel.Validator;
 import com.santhosh.interviewpanel.manageinterview.ManageInterviewView;
 import com.santhosh.interviewpanel.model.HR;
 
@@ -12,22 +13,30 @@ public class LoginView {
 	private LoginModel loginModel;
 	private ManageInterviewView manageInterviewView;
 	static Scanner sc = new Scanner(System.in);
-//	Console console = System.console();
 
 	public LoginView() {
 		loginModel = new LoginModel(this);
 		manageInterviewView = new ManageInterviewView(this);
+
 	}
 
+	// Entry Method of LoginView
 	public void init() throws Exception {
 		System.err.print("\t\tHuman Resource Management\n\n");
 		Thread.sleep(1000);
 		System.err.println("\t\t" + InterviewPanel.getInstance().getAppName() + "\t"
 				+ InterviewPanel.getInstance().getAppVersion() + " --v\n");
+		// Checking if already there is a Receptionist
+		if (loginModel.confirmReceptionist() != null) {
+			System.out.println("\nWelcome, Login to Continue..!\n");
+			reLogin();
+			return;
+		}
 		System.out.println("\nPlease login with Temp Credentials and Reset..!");
 		login();
 	}
 
+	// If Receptionist is Null
 	void login() throws Exception {
 		System.out.print("\nEnter the Temp Email Id : ");
 		String emailId = sc.nextLine().trim();
@@ -36,6 +45,7 @@ public class LoginView {
 		loginModel.validateUser(emailId, password);
 	}
 
+	// After validating Temp Credentials
 	public void onSuccess() throws Exception {
 		System.out.flush();
 		System.err.println("\n\n\t\t" + InterviewPanel.getInstance().getAppName() + "\t"
@@ -45,31 +55,54 @@ public class LoginView {
 		String id = "" + (int) (Math.random() * 10000);
 		Thread.sleep(1000);
 		showAlert(id);
-		System.out.print("Enter your Name : ");
-		String name = sc.nextLine().trim();
-		System.out.print("Enter your Email Id : ");
-		String emailId = sc.nextLine().trim();
-		System.out.print("Enter yout Password : ");
-		String password = sc.nextLine().trim();
-		loginModel.validateCredentials(id, name, emailId, password);
+		String name;
+		String emailId;
+		String password;
+
+		do {
+			System.out.print("Enter your Name : ");
+			name = sc.nextLine().trim();
+		} while (!Validator.validateName(name));
+
+		do {
+			System.out.print("Enter your Email Id : ");
+			emailId = sc.nextLine().trim();
+		} while (!Validator.validateEmail(emailId));
+
+		do {
+			System.out.print("Enter your Password : ");
+			password = sc.nextLine().trim();
+		} while (!Validator.validatePassword(password));
+
+		loginModel.createReceptionsist(id, name, emailId, password);
 	}
 
+	// If Receptionist is Present
 	public void reLogin() throws Exception {
-		System.out.print("Enter your Email Id : ");
-		String emailId = sc.next();
-		System.out.print("Enter your Password : ");
-		String password = sc.next();
-		loginModel.reValidateUser(emailId, password);
+		String emailId;
+		String password;
+		do {
+			System.out.print("Enter your Email Id : ");
+			emailId = sc.nextLine().trim();
+		} while (!Validator.validateEmail(emailId));
+
+		do {
+			System.out.print("Enter your Password : ");
+			password = sc.nextLine().trim();
+		} while (!Validator.validatePassword(password));
+
+		loginModel.reLoginUser(emailId, password);
 	}
 
 	public void onLoginFailed(String alertText) {
 		showAlert(alertText);
 	}
 
+	// Interface for Receptionist
 	public void proceedInterface() throws Exception {
 		while (true) {
 			System.out.println(
-					"\n1) Add Candidates \n2) Candidate's Status \n3) Manage Interview \n4) View HR's \n5) Log Out \n6) Exit ");
+					"\n1) Add Candidates \n2) Candidate's Status \n3) Manage Interview \n4) View HR's \n5) Log Out \n6) Reset Data \n7) Exit ");
 			switch (sc.nextInt()) {
 			case 1:
 				System.out.println();
@@ -89,6 +122,11 @@ public class LoginView {
 				reLogin();
 				return;
 			case 6:
+				loginModel.resetFile();
+				sc.nextLine();
+				login();
+				break;
+			case 7:
 				interviewCompletion();
 				break;
 			default:
@@ -99,6 +137,7 @@ public class LoginView {
 		}
 	}
 
+	// Checking if interview is Over for All Candidates
 	void interviewCompletion() throws Exception {
 		boolean b = manageInterviewView.checkCandidates();
 		if (b) {
@@ -111,6 +150,7 @@ public class LoginView {
 		}
 	}
 
+	// Method to Show HR's
 	public void listHr(List<HR> hrList) {
 		System.err.printf("%-10s %-15s %-20s %-30s %-15s %n", "EmpID", "PhoneNo", "Name", "EmailID", "IsAvailable");
 		for (HR hr : hrList) {

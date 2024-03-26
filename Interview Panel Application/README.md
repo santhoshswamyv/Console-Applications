@@ -30,10 +30,12 @@ Welcome to the Interview Panel Application! This application is designed to stre
 
 ## Features
 
-- **User Authentication:** Secure login system for first time setup with temporary credentials.
+- **User Authentication:** Secure login system for HR personnel with temporary credentials. Users can reset their passwords.
 - **Candidate Management:** Add and view candidate details, including their status in the interview process.
 - **Interview Scheduling:** Schedule and manage interviews with candidates.
+- **Persistent Data Storage and Retrieval:** Implemented persistent data storage using JSON files, allowing seamless retrieval of application data between sessions.
 - **HR Management:** View HR personnel, including their availability.
+
 
 ## Developed Using
 
@@ -54,10 +56,11 @@ Welcome to the Interview Panel Application! This application is designed to stre
 *Go to the project directory*
 
 ```bash
-  cd InterviewPanel
-  cd src/com/santhosh/interviewpanel
+  cd "Interview Panel Application"/src/com/santhosh/interviewpanel
 ```
 *Open the Project in any IDE*
+
+**Add Gson Jar File to the Class Path**
 
 ```bash
   run the InterviewPanel.java

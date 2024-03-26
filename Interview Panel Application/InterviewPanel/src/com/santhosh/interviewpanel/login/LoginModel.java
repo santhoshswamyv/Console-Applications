@@ -1,10 +1,10 @@
 package com.santhosh.interviewpanel.login;
 
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.santhosh.interviewpanel.datalayer.DetailsDatabase;
 import com.santhosh.interviewpanel.model.HR;
+import com.santhosh.interviewpanel.model.Receptionist;
 
 public class LoginModel {
 	private LoginView loginView;
@@ -15,6 +15,7 @@ public class LoginModel {
 		this.loginView = loginView;
 	}
 
+	// Method to Validate Temp Credentials
 	public void validateUser(String emailId, String password) throws Exception {
 		if (isValidEmailId(emailId)) {
 			if (isValidPassword(emailId, password)) {
@@ -29,7 +30,17 @@ public class LoginModel {
 		}
 	}
 
-	public void reValidateUser(String emailId, String password) throws Exception {
+	// Method to Retrieve or Check of Receptionist
+	Receptionist confirmReceptionist() {
+		Receptionist receptioninst = DetailsDatabase.getInstance().getReceptionist();
+		if (receptioninst == null) {
+			DetailsDatabase.getInstance().retrieveReceptionist();
+		}
+		return DetailsDatabase.getInstance().getReceptionist();
+	}
+
+	// Method to Relogin the User
+	public void reLoginUser(String emailId, String password) throws Exception {
 		if (DetailsDatabase.getInstance().getReceptionist(emailId, password)) {
 			loginView.showAlert("\nLogin Successful..!");
 			loginView.proceedInterface();
@@ -47,31 +58,8 @@ public class LoginModel {
 		return emailId.equals(tempEmail) && password.equals(tempPass);
 	}
 
-	void validateCredentials(String id, String name, String emailId, String password) throws Exception {
-
-		String namePattern = "^[a-zA-Z]+(?:\\s[a-zA-Z]+)*$";
-		String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-		String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-
-		if (!Pattern.matches(namePattern, name)) {
-			loginView.showAlert("\nName contains Invalid Characters..!");
-			loginView.onSuccess();
-			return;
-		}
-
-		if (!Pattern.matches(emailPattern, emailId)) {
-			loginView.showAlert("Invalid Email Id \n(Email should match standard email format)");
-			loginView.onSuccess();
-			return;
-		}
-
-		if (!Pattern.matches(passwordPattern, password)) {
-			loginView.showAlert(
-					"Invalid password \n(Password should contain at least one digit, one lowercase and one uppercase letter, one special character, and have a minimum length of 8 characters)");
-			loginView.onSuccess();
-			return;
-		}
-
+	// Method where it is Invoking to Create a Receptionist
+	void createReceptionsist(String id, String name, String emailId, String password) throws Exception {
 		if (DetailsDatabase.getInstance().setReceptionist(id, name, emailId, password)) {
 			loginView.showAlert("\nNew Account Created..!");
 			Thread.sleep(1000);
@@ -83,6 +71,12 @@ public class LoginModel {
 		}
 	}
 
+	// Method to Invoke the reset()
+	void resetFile() {
+		DetailsDatabase.getInstance().reset();
+	}
+
+	// Method to Invoke the getHrs()
 	void viewHr() {
 		List<HR> hrList = DetailsDatabase.getInstance().getHrs();
 		if (hrList.isEmpty()) {

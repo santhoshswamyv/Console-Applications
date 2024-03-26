@@ -3,7 +3,6 @@ package com.santhosh.interviewpanel.manageinterview;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.santhosh.interviewpanel.datalayer.DetailsDatabase;
 import com.santhosh.interviewpanel.model.Candidate;
@@ -19,35 +18,38 @@ public class ManageInterviewModel {
 		this.manageInterviewView = manageInterviewView;
 	}
 
-	void validateCredentials(String id, String name, String collegeName, String emailId, String phoneNo,
-			String location, String status, String result) throws Exception {
-		String namePattern = "^[a-zA-Z]+(?:\\s[a-zA-Z]+)*$";
-		String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-		String phonePattern = "^\\d{10}$";
+	// Retrieving the ID if Present or Default value
+	int confirmId() {
+		DetailsDatabase database = DetailsDatabase.getInstance();
+		int id = database.getId();
+		if (id == 0) {
+			database.retrieveId();
+			id = database.getId();
+		}
+		return id;
+	}
 
-		if (Pattern.matches(namePattern, name)) {
-			if (Pattern.matches(emailPattern, emailId)) {
-				if (Pattern.matches(phonePattern, phoneNo)) {
-					if (DetailsDatabase.getInstance().addCandidate(id, name, collegeName, emailId, phoneNo, location,
-							status, result)) {
-						manageInterviewView.showAlert("\n" + " ( " + id + " ) " + name + " added to the Queue..!");
-						ManageInterviewView.id++;
-						manageInterviewView.confirmation();
-					}
-				} else {
-					manageInterviewView.showAlert("\nInvalid Phone Number\n(Phone No should contains 10 digits only)");
-					manageInterviewView.addCandidate();
-				}
-			} else {
-				manageInterviewView.showAlert("Invalid Email Id \n(Email should match standard email format)");
-				manageInterviewView.addCandidate();
-			}
+	// Adding the Candidate in the Queue
+	void createCandidate(String id, String name, String collegeName, String emailId, String phoneNo, String location,
+			String status, String result) throws Exception {
+		if (DetailsDatabase.getInstance().addCandidate(id, name, collegeName, emailId, phoneNo, location, status,
+				result)) {
+			manageInterviewView.showAlert("\n" + " (" + id + ") " + name + " added to the Queue..!");
+			DetailsDatabase.getInstance().id++;
+			manageInterviewView.confirmation();
 		} else {
-			manageInterviewView.showAlert("\nName contains Invalid Characters..!");
+			manageInterviewView.showAlert("\nUnexpected Error Occured Try Again..!");
 			manageInterviewView.addCandidate();
 		}
 	}
 
+	// Retrieving the Old Data
+	void retrieveData() {
+		DetailsDatabase.getInstance().retrieveHr();
+		DetailsDatabase.getInstance().retrieveCandidates();
+	}
+
+	// Starting the Interview for Candidate
 	void startInterview() {
 		checkForCandidates();
 		if (!candidates.isEmpty()) {
@@ -78,10 +80,12 @@ public class ManageInterviewModel {
 		candidates = null;
 	}
 
+	// Method to Sort the Candidates if Emergency Student Collapsed the Queue
 	void sortCandidates() {
 		checkForCandidates();
-		if (candidates.getFirst().getStatus().equals("Completed")) {
-			Iterator<Candidate> iterator = candidates.iterator();
+		Iterator<Candidate> iterator = candidates.iterator();
+		if (candidates.getFirst().getStatus().equals("Completed")
+				&& candidates.getLast().getStatus().equals("Completed")) {
 			while (iterator.hasNext()) {
 				Candidate candidate = iterator.next();
 				if (candidate.getStatus().equals("Waiting")) {
@@ -89,9 +93,18 @@ public class ManageInterviewModel {
 					candidates.addFirst(candidate);
 				}
 			}
+		} else {
+			while (iterator.hasNext()) {
+				Candidate candidate = iterator.next();
+				if (candidate.getStatus().equals("Completed")) {
+					iterator.remove();
+					candidates.addLast(candidate);
+				}
+			}
 		}
 	}
 
+	// Ending the Interview for Candidate
 	void endInterview(String result) {
 		checkForCandidates();
 		if (!candidates.isEmpty()) {
@@ -117,6 +130,7 @@ public class ManageInterviewModel {
 		candidates = null;
 	}
 
+	// Method to Shift the Student to top of the Queue
 	void emergencyCandidate(String cId) {
 		checkForCandidates();
 		if (!candidates.isEmpty()) {
@@ -146,6 +160,7 @@ public class ManageInterviewModel {
 		candidates = null;
 	}
 
+	// Method to Transfer the Candidates
 	void viewCandidates() {
 		candidates = DetailsDatabase.getInstance().getCandidates();
 		if (candidates.isEmpty()) {
@@ -155,14 +170,16 @@ public class ManageInterviewModel {
 		}
 	}
 
+	// Checking the candidates completed the Interview
 	boolean checkForCandidates() {
 		candidates = DetailsDatabase.getInstance().getCandidates();
 		if (candidates.isEmpty()) {
-			manageInterviewView.showAlert("\nCandidates Not Registered..!");
-			return false;
+			DetailsDatabase.getInstance().saveAll();
+			return true;
 		} else {
 			if (candidates.getFirst().getStatus().equals("Completed")
 					&& candidates.getLast().getStatus().equals("Completed")) {
+				DetailsDatabase.getInstance().saveAll();
 				return true;
 			}
 		}

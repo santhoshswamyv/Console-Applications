@@ -32,63 +32,46 @@ public class Candidate {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getCollegeName() {
 		return collegeName;
-	}
-
-	public void setCollegeName(String collegeName) {
-		this.collegeName = collegeName;
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getPhoneNo() {
 		return phoneNo;
-	}
-
-	public void setPhoneNo(String phoneNo) {
-		this.phoneNo = phoneNo;
 	}
 
 	public String getEmailId() {
 		return emailId;
 	}
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
-
 	public String getLocation() {
 		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
 	}
 
 	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public String getResult() {
 		return result;
 	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public void setResult(String result) {
 		this.result = result;
+	}
+
+	@Override
+	public String toString() {
+		return "Candidate{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", collegeName='" + collegeName + '\''
+				+ ", emailId='" + emailId + '\'' + ", phoneNo='" + phoneNo + '\'' + ", location='" + location + '\''
+				+ ", status='" + status + '\'' + ", result='" + result + '\'' + '}';
 	}
 }
