@@ -56,7 +56,7 @@ This application is designed to streamline the interview process by providing fe
 *Go to the project directory*
 
 ```bash
-  cd "Interview Panel Application"/src/com/santhosh/interviewpanel
+  cd "Interview Panel Application"/InterviewPanel/src/com/santhosh/interviewpanel
 ```
 *Open the Project in any IDE*
 
