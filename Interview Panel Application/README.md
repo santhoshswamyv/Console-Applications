@@ -1,6 +1,6 @@
 # *Interview Panel Application*
 
-Welcome to the Interview Panel Application! This application is designed to streamline the interview process by providing features for managing candidates, scheduling interviews, and managing HR personnel.
+This application is designed to streamline the interview process by providing features for managing candidates, scheduling interviews, and managing HR personnel.
 
 
 
