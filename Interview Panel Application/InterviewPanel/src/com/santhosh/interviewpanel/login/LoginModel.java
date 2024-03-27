@@ -86,4 +86,10 @@ public class LoginModel {
 		}
 	}
 
+	// Method to Invoke the getReceptionist()
+	void viewReceptionist() throws Exception {
+		Receptionist receptionist = DetailsDatabase.getInstance().getReceptionist();
+		loginView.listReceptionist(receptionist);
+	}
+
 }

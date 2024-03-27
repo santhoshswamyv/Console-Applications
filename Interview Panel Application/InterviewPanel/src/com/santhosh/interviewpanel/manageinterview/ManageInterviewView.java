@@ -25,7 +25,7 @@ public class ManageInterviewView {
 		manageInterviewModel.retrieveData();
 	}
 
-	// Conformation method to Add Another Candidate of after other
+	// Confirmation method to Add Another Candidate of after other
 	public void confirmation() throws Exception {
 		System.out.println("Do you want to add another Candidate ? (Yes / No)");
 		String confirmation = sc.nextLine().trim();

@@ -7,6 +7,7 @@ import com.santhosh.interviewpanel.InterviewPanel;
 import com.santhosh.interviewpanel.Validator;
 import com.santhosh.interviewpanel.manageinterview.ManageInterviewView;
 import com.santhosh.interviewpanel.model.HR;
+import com.santhosh.interviewpanel.model.Receptionist;
 
 public class LoginView {
 
@@ -50,7 +51,7 @@ public class LoginView {
 		System.out.flush();
 		System.err.println("\n\n\t\t" + InterviewPanel.getInstance().getAppName() + "\t"
 				+ InterviewPanel.getInstance().getAppVersion() + " --v\n");
-		System.out.println("Create a New Account..!\n");
+		System.out.println("Create a Account for Receptionist..!\n");
 		System.out.print("Your ID : ");
 		String id = "" + (int) (Math.random() * 10000);
 		Thread.sleep(1000);
@@ -102,7 +103,7 @@ public class LoginView {
 	public void proceedInterface() throws Exception {
 		while (true) {
 			System.out.println(
-					"\n1) Add Candidates \n2) Candidate's Status \n3) Manage Interview \n4) View HR's \n5) Log Out \n6) Reset Data \n7) Exit ");
+					"\n1) Add Candidates \n2) Candidate's Status \n3) Manage Interview \n4) View HR's \n5) View Receptionist \n6) Log Out \n7) Reset Data \n8) Exit ");
 			switch (sc.nextInt()) {
 			case 1:
 				System.out.println();
@@ -118,15 +119,18 @@ public class LoginView {
 				loginModel.viewHr();
 				break;
 			case 5:
+				loginModel.viewReceptionist();
+				break;
+			case 6:
 				showAlert("\nLogged Out..!");
 				reLogin();
 				return;
-			case 6:
+			case 7:
 				loginModel.resetFile();
 				sc.nextLine();
 				login();
 				break;
-			case 7:
+			case 8:
 				interviewCompletion();
 				break;
 			default:
@@ -151,12 +155,26 @@ public class LoginView {
 	}
 
 	// Method to Show HR's
-	public void listHr(List<HR> hrList) {
+	void listHr(List<HR> hrList) {
 		System.err.printf("%-10s %-15s %-20s %-30s %-15s %n", "EmpID", "PhoneNo", "Name", "EmailID", "IsAvailable");
 		for (HR hr : hrList) {
 			System.out.printf("%-10s %-15s %-20s %-30s %-15s %n", hr.getEmpId(), hr.getPhoneNo(), hr.getName(),
 					hr.getEmailId(), (hr.isAvailable() ? "Yes" : "No"));
 		}
+	}
+
+	// Method to Show Receptionist
+	void listReceptionist(Receptionist receptionist) throws Exception {
+		System.out.println("Employee Details : \n");
+		Thread.sleep(500);
+		System.err.print("Emp ID : ");
+		System.out.println(receptionist.getId());
+		Thread.sleep(500);
+		System.err.print("Emp Name : ");
+		System.out.println(receptionist.getName());
+		Thread.sleep(500);
+		System.err.print("Emp Email ID : ");
+		System.out.println(receptionist.getEmailId());
 	}
 
 	public void showAlert(String alert) {
