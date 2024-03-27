@@ -34,7 +34,7 @@ This application is designed to streamline the interview process by providing fe
 
 ![Interface](Screenshots/IP-13.png)
 
-## Features
+## Key Features
 
 - **User Authentication:** Secure login system for HR personnel with temporary credentials. Users can reset their passwords.
 - **Candidate Management:** Add and view candidate details, including their status in the interview process.
