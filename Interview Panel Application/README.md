@@ -8,25 +8,25 @@ This application is designed to streamline the interview process by providing fe
 
 **Console Interface**
 
-![Interface](InterviewPanel/Screenshots/IP-1.png)
+![Interface](Screenshots/IP-1.png)
 
-![Interface](InterviewPanel/Screenshots/IP-2.png)
+![Interface](Screenshots/IP-2.png)
 
-![Interface](InterviewPanel/Screenshots/IP-3.png)
+![Interface](Screenshots/IP-3.png)
 
-![Interface](InterviewPanel/Screenshots/IP-4.png)
+![Interface](Screenshots/IP-4.png)
 
-![Interface](InterviewPanel/Screenshots/IP-5.png)
+![Interface](Screenshots/IP-5.png)
 
-![Interface](InterviewPanel/Screenshots/IP-6.png)
+![Interface](Screenshots/IP-6.png)
 
-![Interface](InterviewPanel/Screenshots/IP-7.png)
+![Interface](Screenshots/IP-7.png)
 
-![Interface](InterviewPanel/Screenshots/IP-8.png)
+![Interface](Screenshots/IP-8.png)
 
-![Interface](InterviewPanel/Screenshots/IP-9.png)
+![Interface](Screenshots/IP-9.png)
 
-![Interface](InterviewPanel/Screenshots/IP-10.png)
+![Interface](Screenshots/IP-10.png)
 
 ## Features
 
