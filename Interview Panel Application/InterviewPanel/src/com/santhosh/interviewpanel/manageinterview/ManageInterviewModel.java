@@ -72,6 +72,8 @@ public class ManageInterviewModel {
 							manageInterviewView.showAlert("Interview started for " + cnd.getId());
 						}
 						break;
+					} else {
+						manageInterviewView.showAlert("Interview already going on..!");
 					}
 				}
 			}
@@ -147,9 +149,10 @@ public class ManageInterviewModel {
 					break;
 				}
 			}
-			candidates.remove(cnd);
 			if (cnd != null) {
-				candidates.addFirst(cnd);
+				Candidate emerCnd = cnd;
+				candidates.remove(cnd);
+				candidates.addFirst(emerCnd);
 				manageInterviewView.showAlert("\nNext Candidate is " + cId + "..!");
 			} else {
 				manageInterviewView.showAlert("\nCandidate Not Found..!");

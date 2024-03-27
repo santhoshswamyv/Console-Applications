@@ -28,6 +28,12 @@ This application is designed to streamline the interview process by providing fe
 
 ![Interface](Screenshots/IP-10.png)
 
+![Interface](Screenshots/IP-11.png)
+
+![Interface](Screenshots/IP-12.png)
+
+![Interface](Screenshots/IP-13.png)
+
 ## Features
 
 - **User Authentication:** Secure login system for HR personnel with temporary credentials. Users can reset their passwords.
@@ -59,6 +65,12 @@ This application is designed to streamline the interview process by providing fe
 
 ```bash
   run the InterviewPanel.java
+```
+
+**Temp Credentials**
+```bash
+Username : admin@gmail.com
+Password : Admin@123
 ```
 
 

@@ -9,7 +9,7 @@ import com.santhosh.interviewpanel.model.Receptionist;
 public class LoginModel {
 	private LoginView loginView;
 	private static String tempEmail = "admin@gmail.com";
-	private static String tempPass = "admin@123";
+	private static String tempPass = "Admin@123";
 
 	LoginModel(LoginView loginView) {
 		this.loginView = loginView;
