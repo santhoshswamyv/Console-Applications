@@ -22,7 +22,7 @@ public class ManageInterviewModel {
 	int confirmId() {
 		DetailsDatabase database = DetailsDatabase.getInstance();
 		int id = database.getId();
-		if (id == 0) {
+		if (id == 1) {
 			database.retrieveId();
 			id = database.getId();
 		}
@@ -88,12 +88,14 @@ public class ManageInterviewModel {
 				&& candidates.getLast().getStatus().equals("Completed")) {
 			while (iterator.hasNext()) {
 				Candidate candidate = iterator.next();
-				if (candidate.getStatus().equals("Waiting")) {
+				if (candidate.getStatus().equals("Completed")) {
 					iterator.remove();
-					candidates.addFirst(candidate);
+					candidates.addLast(candidate);
 				}
 			}
 		} else {
+			iterator = null;
+			iterator = candidates.iterator();
 			while (iterator.hasNext()) {
 				Candidate candidate = iterator.next();
 				if (candidate.getStatus().equals("Completed")) {
@@ -134,10 +136,7 @@ public class ManageInterviewModel {
 	void emergencyCandidate(String cId) {
 		checkForCandidates();
 		if (!candidates.isEmpty()) {
-			Candidate cnd = candidates.getFirst();
-			candidates.remove(cnd);
-			candidates.addLast(cnd);
-			cnd = null;
+			Candidate cnd = null;
 			for (Candidate candidate : candidates) {
 				if (candidate.getId().equals(cId)) {
 					cnd = candidate;

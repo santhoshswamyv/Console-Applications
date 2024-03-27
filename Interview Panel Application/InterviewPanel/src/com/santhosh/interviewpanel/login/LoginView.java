@@ -102,41 +102,46 @@ public class LoginView {
 	// Interface for Receptionist
 	public void proceedInterface() throws Exception {
 		while (true) {
-			System.out.println(
-					"\n1) Add Candidates \n2) Candidate's Status \n3) Manage Interview \n4) View HR's \n5) View Receptionist \n6) Log Out \n7) Reset Data \n8) Exit ");
-			switch (sc.nextInt()) {
-			case 1:
-				System.out.println();
-				manageInterviewView.addCandidate();
-				break;
-			case 2:
-				manageInterviewView.listCandidates();
-				break;
-			case 3:
-				manageInterviewView.manageInterview();
-				break;
-			case 4:
-				loginModel.viewHr();
-				break;
-			case 5:
-				loginModel.viewReceptionist();
-				break;
-			case 6:
-				showAlert("\nLogged Out..!");
-				reLogin();
-				return;
-			case 7:
-				loginModel.resetFile();
-				sc.nextLine();
-				login();
-				break;
-			case 8:
-				interviewCompletion();
-				break;
-			default:
-				showAlert("Please Choose a Valid Option..!");
-				proceedInterface();
-				break;
+			try {
+				System.out.println(
+						"\n1) Add Candidates \n2) Candidate's Status \n3) Manage Interview \n4) View HR's \n5) View Receptionist \n6) Log Out \n7) Reset Data \n8) Exit ");
+				switch (sc.nextInt()) {
+				case 1:
+					System.out.println();
+					manageInterviewView.addCandidate();
+					break;
+				case 2:
+					manageInterviewView.listCandidates();
+					break;
+				case 3:
+					manageInterviewView.manageInterview();
+					break;
+				case 4:
+					loginModel.viewHr();
+					break;
+				case 5:
+					loginModel.viewReceptionist();
+					break;
+				case 6:
+					showAlert("\nLogged Out..!");
+					sc.nextLine();
+					reLogin();
+					return;
+				case 7:
+					loginModel.resetFile();
+					sc.nextLine();
+					login();
+					break;
+				case 8:
+					interviewCompletion();
+					break;
+				default:
+					showAlert("Please Choose a Valid Option..!");
+					proceedInterface();
+					break;
+				}
+			} catch (Exception e) {
+				showAlert("Choose a Valid Option");
 			}
 		}
 	}

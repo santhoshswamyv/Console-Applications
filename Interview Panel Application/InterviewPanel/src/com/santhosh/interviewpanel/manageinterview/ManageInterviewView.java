@@ -85,35 +85,40 @@ public class ManageInterviewView {
 
 	// ManageInterview Interface to Handle Interview Process
 	public void manageInterview() throws Exception {
-		System.out.println("\n1) Start Interview \n2) End Interview \n3) Emergency Candidate \n4) Main Menu");
-		switch (sc.nextInt()) {
-		case 1:
-			manageInterviewModel.startInterview();
-			break;
-		case 2:
-			if (isStarted) {
-				manageInterviewModel.endInterview(reConfirmation());
-			} else {
-				showAlert("\nInterview not yet Started..!");
+		try {
+			System.out.println("\n1) Start Interview \n2) End Interview \n3) Emergency Candidate \n4) Main Menu");
+			switch (sc.nextInt()) {
+			case 1:
+				manageInterviewModel.startInterview();
+				break;
+			case 2:
+				if (isStarted) {
+					manageInterviewModel.endInterview(reConfirmation());
+				} else {
+					showAlert("\nInterview not yet Started..!");
+				}
+				break;
+			case 3:
+				if (!isStarted) {
+					System.out.print("Enter the Candidate ID : ");
+					sc.nextLine();
+					String cId = sc.nextLine().trim();
+					manageInterviewModel.emergencyCandidate(cId);
+				} else {
+					manageInterviewModel.checkForCandidates();
+				}
+				return;
+			case 4:
+				loginView.proceedInterface();
+				return;
+			default:
+				showAlert("Please Choose a Valid Option..!");
+				manageInterview();
+				break;
 			}
-			break;
-		case 3:
-			if (!isStarted) {
-				System.out.print("Enter the Candidate ID : ");
-				sc.nextLine();
-				String cId = sc.nextLine().trim();
-				manageInterviewModel.emergencyCandidate(cId);
-			} else {
-				manageInterviewModel.checkForCandidates();
-			}
-			return;
-		case 4:
-			loginView.proceedInterface();
-			return;
-		default:
-			showAlert("Please Choose a Valid Option..!");
-			manageInterview();
-			break;
+		} catch (Exception e) {
+			showAlert("Choose a Valid Option");
+			sc.nextLine();
 		}
 	}
 
@@ -122,17 +127,23 @@ public class ManageInterviewView {
 		boolean b = true;
 		String result = "Not Declared";
 		while (b) {
-			System.out.println("Result of the Candidate : ");
-			System.out.println("1) Selected \n2) Rejected");
-			int res = sc.nextInt();
-			if (res == 1) {
-				result = "Selected";
-				b = false;
-			} else if (res == 2) {
-				b = false;
-				result = "Rejected";
-			} else {
-				showAlert("\nPlease Choose a Valid Option..!");
+			try {
+				System.out.println("Result of the Candidate : ");
+				System.out.println("1) Selected \n2) Rejected");
+				int res = sc.nextInt();
+				if (res == 1) {
+					result = "Selected";
+					b = false;
+				} else if (res == 2) {
+					b = false;
+					result = "Rejected";
+				} else {
+					showAlert("\nPlease Choose a Valid Option..!");
+				}
+				return result;
+			} catch (Exception e) {
+				showAlert("Choose a Valid Option");
+				sc.nextLine();
 			}
 		}
 		return result;
