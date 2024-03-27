@@ -8,25 +8,25 @@ This application is designed to streamline the interview process by providing fe
 
 **Console Interface**
 
-![Interface](Screenshots/IP-1.png)
+![Interface](InterviewPanel/Screenshots/IP-1.png)
 
-![Interface](Screenshots/IP-2.png)
+![Interface](InterviewPanel/Screenshots/IP-2.png)
 
-![Interface](Screenshots/IP-3.png)
+![Interface](InterviewPanel/Screenshots/IP-3.png)
 
-![Interface](Screenshots/IP-4.png)
+![Interface](InterviewPanel/Screenshots/IP-4.png)
 
-![Interface](Screenshots/IP-5.png)
+![Interface](InterviewPanel/Screenshots/IP-5.png)
 
-![Interface](Screenshots/IP-6.png)
+![Interface](InterviewPanel/Screenshots/IP-6.png)
 
-![Interface](Screenshots/IP-7.png)
+![Interface](InterviewPanel/Screenshots/IP-7.png)
 
-![Interface](Screenshots/IP-8.png)
+![Interface](InterviewPanel/Screenshots/IP-8.png)
 
-![Interface](Screenshots/IP-9.png)
+![Interface](InterviewPanel/Screenshots/IP-9.png)
 
-![Interface](Screenshots/IP-10.png)
+![Interface](InterviewPanel/Screenshots/IP-10.png)
 
 ## Features
 
@@ -53,11 +53,6 @@ This application is designed to streamline the interview process by providing fe
   git clone https://github.com/santhoshswamyv/ConsoleApplications.git
 ```
 
-*Go to the project directory*
-
-```bash
-  cd "Interview Panel Application"/InterviewPanel/src/com/santhosh/interviewpanel
-```
 *Open the Project in any IDE*
 
 **Add Gson Jar File to the Class Path**
