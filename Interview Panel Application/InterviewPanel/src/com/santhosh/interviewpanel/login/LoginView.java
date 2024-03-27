@@ -149,7 +149,7 @@ public class LoginView {
 					+ InterviewPanel.getInstance().getAppVersion() + " --v..!\n");
 			System.exit(0);
 		} else {
-			showAlert("\nInterview in going on you can't exit..!");
+			showAlert("\nInterview is going on you can't exit..!");
 			proceedInterface();
 		}
 	}

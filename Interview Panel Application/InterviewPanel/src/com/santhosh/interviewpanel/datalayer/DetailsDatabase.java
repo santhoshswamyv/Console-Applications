@@ -25,7 +25,7 @@ public class DetailsDatabase {
 	private static Gson gson = new Gson();
 
 	// Data to be stored
-	public int id;
+	public int id = 1;
 	private Receptionist receptionist;
 	private List<HR> hrList = new ArrayList<HR>();
 	private ArrayDeque<Candidate> candidates = new ArrayDeque<Candidate>();
